@@ -95,24 +95,26 @@
     <Button color="blue" class="!p-3" on:click={() => (showFilters = !showFilters)}
       ><FilterOutline class="outline-none" /></Button
     >
-    <div class="text-gray-400">Logs: {searchedLogs.length}</div>
+    <div class="text-gray-400 whitespace-nowrap">Logs: {searchedLogs.length}</div>
   </div>
-	<div>
-		{#if filters.type != ''}
-			<Button size="sm" on:click={() => (filters.type = '')}>type: {filters.type}</Button>
-		{/if}
-		{#if filters.user != ''}
-			<Button size="sm" on:click={() => (filters.user = '')}>user: {filters.user}</Button>
-		{/if}
-		{#if filters.machine != ''}
-			<Button size="sm" on:click={() => (filters.machine = '')}>machine: {filters.machine}</Button>
-		{/if}
-	</div>
-	<div class="w-full max-w-sm">
-		<Input defaultClass="w-full" type="text" placeholder="Search" bind:value={searchText}>
-			<SearchOutline class="w-5 h-5" slot="left" />
-		</Input>
-	</div>
+  <div class="w-full flex flex-row gap-2 ml-auto justify-end items-center">
+    <div>
+      {#if filters.type != ''}
+        <Button color="blue" size="sm" on:click={() => (filters.type = '')}>type: {filters.type}</Button>
+      {/if}
+      {#if filters.user != ''}
+        <Button color="blue" size="sm" on:click={() => (filters.user = '')}>user: {filters.user}</Button>
+      {/if}
+      {#if filters.machine != ''}
+        <Button color="blue" size="sm" on:click={() => (filters.machine = '')}>machine: {filters.machine}</Button>
+      {/if}
+    </div>
+    <div class="w-full max-w-sm">
+      <Input defaultClass="w-full" type="text" placeholder="Search" bind:value={searchText}>
+        <SearchOutline class="w-5 h-5" slot="left" />
+      </Input>
+    </div>
+  </div>
 </div>
 
 <Table class="w-full table-fixed">
@@ -157,7 +159,7 @@
 						>
 					{/if}
 				</TableBodyCell>
-				<TableBodyCell class="truncate">{log.message || ''}</TableBodyCell>
+				<TableBodyCell class="truncate" title="{log.message || ''}">{log.message || ''}</TableBodyCell>
 				<TableBodyCell>
 					{#if log.filename}
 						<Button class="!p-2" color="light" size="xs" on:click={() => openFile(log.filename)}
