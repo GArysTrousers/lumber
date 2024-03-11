@@ -2,7 +2,6 @@
 	import { api } from '$lib/api';
 	import dayjs from 'dayjs';
 	import {
-		Heading,
 		Table,
 		TableBody,
 		TableBodyCell,

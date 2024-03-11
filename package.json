@@ -26,12 +26,12 @@
 		"eslint": "^8.56.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.35.1",
-		"flowbite": "^1.6.3",
+		"flowbite": "^2.3.0",
 		"flowbite-svelte": "^0.44.24",
-		"flowbite-svelte-blocks": "^1.1.0",
+		"flowbite-svelte-icons": "^1.4.3",
 		"postcss": "^8.4.21",
-		"prettier": "^3.1.1",
-		"prettier-plugin-svelte": "^2.9.0",
+		"prettier": "^3.2.5",
+		"prettier-plugin-svelte": "^3.2.2",
 		"svelte": "^4.2.12",
 		"svelte-check": "^3.6.6",
 		"svelte-heros": "^6.0.3",
@@ -42,24 +42,8 @@
 		"vitest": "^0.28.5"
 	},
 	"type": "module",
-	"keywords": [
-		"svelte",
-		"sveltekit",
-		"flowbite",
-		"flowbite-svelte",
-		"tailwindcss"
-	],
-	"engines": {
-		"npm": ">=7.0.0",
-		"node": ">=16.0.0"
-	},
-	"repository": {
-		"type": "git",
-		"url": ""
-	},
 	"dependencies": {
 		"dayjs": "^1.11.10",
-		"flowbite-svelte-icons": "^1.4.1",
 		"mysql2": "^3.9.2",
 		"uuid": "^9.0.1",
 		"zod": "^3.22.4"

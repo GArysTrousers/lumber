@@ -87,12 +87,12 @@
 			>Max
 			<Input id="dateMax" type="date" bind:value={searchOptions.dateMax} /></Label
 		>
-		<Button color="blue" on:click={getLogs}>Apply</Button>
+		<Button on:click={getLogs}>Apply</Button>
 	</div>
 {/if}
 <div class="flex flex-row justify-between items-end gap-3 mb-2 w-full">
 	<div class="flex flex-row items-center gap-3">
-    <Button color="blue" class="!p-3" on:click={() => (showFilters = !showFilters)}
+    <Button class="!p-3" on:click={() => (showFilters = !showFilters)}
       ><FilterOutline class="outline-none" /></Button
     >
     <div class="text-gray-400 whitespace-nowrap">Logs: {searchedLogs.length}</div>
