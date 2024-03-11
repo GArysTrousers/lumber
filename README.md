@@ -1,8 +1,10 @@
 # Todo:
 - Login
 - Keys
-- Analyse
-- Files
+  - Filter
+- Automatic Cleanup
+  - Old logs
+  - Files
 
 
 # .env
