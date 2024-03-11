@@ -18,7 +18,6 @@
 	import {
 		SearchOutline,
 		FilterOutline,
-		FileOutline,
 		PaperClipOutline
 	} from 'flowbite-svelte-icons';
 	import { onMount } from 'svelte';
@@ -75,7 +74,7 @@
 </script>
 
 {#if showFilters}
-	<div class="flex flex-row justify-end items-end gap-3 mb-2 w-full">
+	<div class="flex flex-row items-end gap-3 mb-2 w-full">
 		<Label for="dateMin"
 			>Limit
 			<Select items={limitOptions} bind:value={searchOptions.limit} />
@@ -88,11 +87,16 @@
 			>Max
 			<Input id="dateMax" type="date" bind:value={searchOptions.dateMax} /></Label
 		>
-		<Button on:click={getLogs}>Apply</Button>
+		<Button color="blue" on:click={getLogs}>Apply</Button>
 	</div>
 {/if}
-<div class="flex flex-row justify-end items-end gap-3 mb-2 w-full">
-	<div class="mr-auto text-gray-400">Logs: {searchedLogs.length}</div>
+<div class="flex flex-row justify-between items-end gap-3 mb-2 w-full">
+	<div class="flex flex-row items-center gap-3">
+    <Button color="blue" class="!p-3" on:click={() => (showFilters = !showFilters)}
+      ><FilterOutline class="outline-none" /></Button
+    >
+    <div class="text-gray-400">Logs: {searchedLogs.length}</div>
+  </div>
 	<div>
 		{#if filters.type != ''}
 			<Button size="sm" on:click={() => (filters.type = '')}>type: {filters.type}</Button>
@@ -109,12 +113,17 @@
 			<SearchOutline class="w-5 h-5" slot="left" />
 		</Input>
 	</div>
-	<Button class="!px-3" on:click={() => (showFilters = !showFilters)}
-		><FilterOutline class="outline-none" /></Button
-	>
 </div>
 
-<Table>
+<Table class="w-full table-fixed">
+  <colgroup>
+    <col width="150px" />
+    <col width="100px" />
+    <col width="100px" />
+    <col width="100px" />
+    <col width="" />
+    <col width="80px" />
+  </colgroup>
 	<TableHead>
 		<TableHeadCell>Date</TableHeadCell>
 		<TableHeadCell>Type</TableHeadCell>
@@ -148,7 +157,7 @@
 						>
 					{/if}
 				</TableBodyCell>
-				<TableBodyCell>{log.message || ''}</TableBodyCell>
+				<TableBodyCell class="truncate">{log.message || ''}</TableBodyCell>
 				<TableBodyCell>
 					{#if log.filename}
 						<Button class="!p-2" color="light" size="xs" on:click={() => openFile(log.filename)}
@@ -165,6 +174,6 @@
 	</TableBody>
 </Table>
 
-<Modal title="File" size="xl" bind:open={showFileReader} autoclose outsideclose>
+<Modal title="File" size="lg" bind:open={showFileReader} autoclose outsideclose>
 	<pre class="w-full">{fileContent}</pre>
 </Modal>

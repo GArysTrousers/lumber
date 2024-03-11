@@ -2,7 +2,7 @@ import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
 import { sql } from "../../../../hooks.server";
 import { z } from "zod";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 
 const schema = {
   body: z.object({
