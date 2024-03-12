@@ -15,11 +15,7 @@
 		Modal
 	} from 'flowbite-svelte';
 
-	import {
-		SearchOutline,
-		FilterOutline,
-		PaperClipOutline
-	} from 'flowbite-svelte-icons';
+	import { SearchOutline, FilterOutline, PaperClipOutline } from 'flowbite-svelte-icons';
 	import { onMount } from 'svelte';
 	import type { Log } from '../api/log/get/+server';
 
@@ -67,8 +63,8 @@
 	async function openFile(filename: string) {
 		try {
 			let res = await api<{ content: string }>('/api/file/' + filename);
-			fileContent = res.content
-      showFileReader = true;
+			fileContent = res.content;
+			showFileReader = true;
 		} catch (e) {}
 	}
 </script>
@@ -92,47 +88,53 @@
 {/if}
 <div class="flex flex-row justify-between items-end gap-3 mb-2 w-full">
 	<div class="flex flex-row items-center gap-3">
-    <Button class="!p-3" on:click={() => (showFilters = !showFilters)}
-      ><FilterOutline class="outline-none" /></Button
-    >
-    <div class="text-gray-400 whitespace-nowrap">Logs: {searchedLogs.length}</div>
-  </div>
-  <div class="w-full flex flex-row gap-2 ml-auto justify-end items-center">
-    <div>
-      {#if filters.type != ''}
-        <Button color="blue" size="sm" on:click={() => (filters.type = '')}>type: {filters.type}</Button>
-      {/if}
-      {#if filters.user != ''}
-        <Button color="blue" size="sm" on:click={() => (filters.user = '')}>user: {filters.user}</Button>
-      {/if}
-      {#if filters.machine != ''}
-        <Button color="blue" size="sm" on:click={() => (filters.machine = '')}>machine: {filters.machine}</Button>
-      {/if}
-    </div>
-    <div class="w-full max-w-sm">
-      <Input defaultClass="w-full" type="text" placeholder="Search" bind:value={searchText}>
-        <SearchOutline class="w-5 h-5" slot="left" />
-      </Input>
-    </div>
-  </div>
+		<Button class="!p-3" on:click={() => (showFilters = !showFilters)}
+			><FilterOutline class="outline-none" /></Button
+		>
+		<div class="text-gray-400 whitespace-nowrap">Logs: {searchedLogs.length}</div>
+	</div>
+	<div class="w-full flex flex-row gap-2 ml-auto justify-end items-center">
+		<div>
+			{#if filters.type != ''}
+				<Button color="blue" size="sm" on:click={() => (filters.type = '')}
+					>type: {filters.type}</Button
+				>
+			{/if}
+			{#if filters.user != ''}
+				<Button color="blue" size="sm" on:click={() => (filters.user = '')}
+					>user: {filters.user}</Button
+				>
+			{/if}
+			{#if filters.machine != ''}
+				<Button color="blue" size="sm" on:click={() => (filters.machine = '')}
+					>machine: {filters.machine}</Button
+				>
+			{/if}
+		</div>
+		<div class="w-full max-w-sm">
+			<Input defaultClass="w-full" type="text" placeholder="Search" bind:value={searchText}>
+				<SearchOutline class="w-5 h-5" slot="left" />
+			</Input>
+		</div>
+	</div>
 </div>
 
 <Table class="w-full table-fixed">
-  <colgroup>
-    <col width="150px" />
-    <col width="100px" />
-    <col width="100px" />
-    <col width="100px" />
-    <col width="" />
-    <col width="80px" />
-  </colgroup>
+	<colgroup>
+		<col width="150px" />
+		<col width="100px" />
+		<col width="100px" />
+		<col width="100px" />
+		<col width="" />
+		<!-- <col width="80px" /> -->
+	</colgroup>
 	<TableHead>
 		<TableHeadCell>Date</TableHeadCell>
 		<TableHeadCell>Type</TableHeadCell>
 		<TableHeadCell>User</TableHeadCell>
 		<TableHeadCell>Machine</TableHeadCell>
 		<TableHeadCell>Message</TableHeadCell>
-		<TableHeadCell>File</TableHeadCell>
+		<!-- <TableHeadCell>File</TableHeadCell> -->
 	</TableHead>
 	<TableBody>
 		{#each searchedLogs as log}
@@ -159,13 +161,17 @@
 						>
 					{/if}
 				</TableBodyCell>
-				<TableBodyCell class="truncate" title="{log.message || ''}">{log.message || ''}</TableBodyCell>
 				<TableBodyCell>
-					{#if log.filename}
-						<Button class="!p-2" color="light" size="xs" on:click={() => openFile(log.filename)}
-							><PaperClipOutline /></Button
-						>
-					{/if}
+					<div class="flex flex-row justify-between items-center gap-2">
+						<div class="truncate" title={log.message || ''}>
+							{log.message || ''}
+						</div>
+						{#if log.filename}
+							<Button class="!p-2" color="light" size="xs" on:click={() => openFile(log.filename)}
+								><PaperClipOutline /></Button
+							>
+						{/if}
+					</div>
 				</TableBodyCell>
 			</TableBodyRow>
 		{:else}

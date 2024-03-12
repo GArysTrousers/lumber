@@ -1,13 +1,20 @@
+import { z } from "zod";
 import type { Sql } from "./sql";
 
 let sql: Sql
 
+const zSettings = z.enum(["key_required", "max_log_age"])
+
+export type SettingName = "key_required" | "max_log_age"
+
 export const settingKeys = [
-  "key_required"
+  "key_required",
+  "max_log_age"
 ]
 
-export const defaultSettings: {[key:string]: any} = {
-  key_required: true
+export const defaultSettings = {
+  key_required: true,
+  max_log_age: 60,
 }
 
 export function setDB(db: Sql) {
@@ -27,7 +34,7 @@ export async function checkSettings() {
   }
 }
 
-export async function getSetting(key: string) {
+export async function getSetting(key: SettingName) {
   if (!settingKeys.includes(key)) throw new Error("Setting doesn't exist")
   try {
     let res = await sql.getOne<{ value: any }>(
@@ -39,7 +46,7 @@ export async function getSetting(key: string) {
   }
 }
 
-export async function setSetting(key: string, value: any) {
+export async function setSetting(key: SettingName, value: any) {
   if (!settingKeys.includes(key)) throw new Error("Setting doesn't exist")
   await sql.set(
     `UPDATE settings 

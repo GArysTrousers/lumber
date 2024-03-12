@@ -73,7 +73,6 @@
 		}
   }
 </script>
-
 <div class="flex flex-row justify-between mb-3">
   <div class="flex flex-row gap-3">
     <Toggle class="whitespace-nowrap" on:change={toggleRequired} bind:checked={required}>Require Key</Toggle>

@@ -2,7 +2,7 @@ import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
 import { sql } from "../../../../hooks.server";
 import { z } from "zod";
-import dayjs from "dayjs";
+import { sqlDate } from "$lib/date-utils";
 
 const schema = {
   body: z.object({
@@ -41,10 +41,6 @@ export const POST: RequestHandler = async ({ request }) => {
 
   return json(logs)
 };
-
-function sqlDate(date: string | number, daysToAdd: number = 0) {
-  return dayjs(date).add(daysToAdd, "day").format('YYYY-MM-DD')
-}
 
 export interface Log {
   id: number;

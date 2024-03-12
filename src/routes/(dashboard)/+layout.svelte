@@ -1,14 +1,16 @@
 <script>
 	import { page } from '$app/stores';
+	import { CogOutline } from 'flowbite-svelte-icons';
 	import '../../app.css';
-	import { DarkMode, Heading } from 'flowbite-svelte';
+	import { Button, DarkMode, Heading } from 'flowbite-svelte';
+	import { goto } from '$app/navigation';
 	let darkmodebtn =
 		'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-lg p-2.5 fixed right-4 top-2 z-50';
 
-  const styles = {
-    nav: "px-3 py-1 text-gray-500 dark:text-gray-300",
-    activeNav: "px-3 py-1 text-gray-500 dark:text-gray-200 border-b-2 border-b-white",
-  }
+	const styles = {
+		nav: 'px-3 py-1 text-gray-500 dark:text-gray-300',
+		activeNav: 'px-3 py-1 text-gray-500 dark:text-gray-200 border-b-2 border-b-white'
+	};
 	let links = [
 		{
 			url: '/',
@@ -46,6 +48,9 @@
 						<span class="nav-link-text">{link.label}</span>
 					</a>
 				{/each}
+				<Button color="alternative" class="!p-2" on:click={() => goto('/admin')}
+					><CogOutline /></Button
+				>
 			</div>
 		</div>
 		<slot />
