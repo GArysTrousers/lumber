@@ -10,15 +10,15 @@ const schema = {
       limit: z.number(),
       dateMin: z.string(),
       dateMax: z.string(),
+      apikey: z.number(),
     })
   })
 }
 
 
 export const POST: RequestHandler = async ({ request }) => {
-  const body = schema.body.parse(await request.json())
 
-  const { options } = body
+  const { options } = schema.body.parse(await request.json())
 
   options.dateMin = options.dateMin
     ? options.dateMin = sqlDate(options.dateMin)
@@ -30,9 +30,11 @@ export const POST: RequestHandler = async ({ request }) => {
 
   let logs = await sql.get(
     `SELECT * FROM log 
-    WHERE date > :dateMin AND date < :dateMax
+    WHERE date > :dateMin 
+    AND date < :dateMax
+    ${options.apikey > 0 ? 'AND apikeyId = :apikey ':''}
     ORDER BY date DESC 
-    ${body.options.limit > 0 ? 'LIMIT :limit' : ''}`, body.options)
+    ${options.limit > 0 ? 'LIMIT :limit' : ''}`, body.options)
 
   logs = logs.map((v) => ({
     ...v,

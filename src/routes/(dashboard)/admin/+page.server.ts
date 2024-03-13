@@ -4,11 +4,11 @@ import type { PageServerLoad } from './$types';
 export const load: PageServerLoad = async () => {
   try {
     return {
-      key_required: await getSetting('key_required')
+      max_log_age: await getSetting('max_log_age')
     }
   } catch (error) {
     return {
-      key_required: defaultSettings.key_required
+      max_log_age: defaultSettings.max_log_age
     }
   }
 };

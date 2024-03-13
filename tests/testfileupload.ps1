@@ -9,5 +9,6 @@ Invoke-WebRequest "http://localhost:5173/submit" -Method Post -Body @{
   user    = Get-Random -InputObject $users
   machine = Get-Random -InputObject $machines
   file    = Get-Content -Path "./testfile.log" -Raw
+  apikey  = "cdc5-bb52-4475-b616"
 }
 

@@ -3,14 +3,13 @@ import type { Sql } from "./sql";
 
 let sql: Sql
 
-const zSettings = z.enum(["key_required", "max_log_age"])
-
-export type SettingName = "key_required" | "max_log_age"
-
 export const settingKeys = [
   "key_required",
   "max_log_age"
-]
+] as const;
+
+const SettingName = z.enum(settingKeys);
+type SettingName = z.infer<typeof SettingName>;
 
 export const defaultSettings = {
   key_required: true,
@@ -24,7 +23,7 @@ export function setDB(db: Sql) {
 export async function checkSettings() {
   for (const [key, value] of Object.entries(defaultSettings)) {
     try {
-      await getSetting(key)
+      await getSetting(SettingName.parse(key))
     } catch (error) {
       await sql.set(`
       INSERT INTO settings (\`key\`, value) 

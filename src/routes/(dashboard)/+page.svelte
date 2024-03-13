@@ -18,8 +18,10 @@
 	import { SearchOutline, FilterOutline, PaperClipOutline } from 'flowbite-svelte-icons';
 	import { onMount } from 'svelte';
 	import type { Log } from '../api/log/get/+server';
+	import type { Key } from '../api/key/get/+server';
 
 	let logs: Log[] = [];
+  let apikeys: Key[] = [];
 	let showFilters = false;
 	let searchText = '';
 	let filters = {
@@ -35,7 +37,8 @@
 	const searchOptions = {
 		limit: 500,
 		dateMin: '',
-		dateMax: ''
+		dateMax: '',
+    apikey: 0,
 	};
 	let showFileReader = false;
 	let fileContent = '';
@@ -54,10 +57,15 @@
 
 	onMount(async () => {
 		getLogs();
+    getApikeys();
 	});
 
 	async function getLogs() {
 		logs = await api('/api/log/get', { options: searchOptions });
+	}
+
+  async function getApikeys() {
+		apikeys = await api('/api/key/get');
 	}
 
 	async function openFile(filename: string) {
@@ -74,6 +82,13 @@
 		<Label for="dateMin"
 			>Limit
 			<Select items={limitOptions} bind:value={searchOptions.limit} />
+		</Label>
+		<Label for="apikey"
+			>Api Key
+			<Select items={[
+        {value: 0, name: "Any"},
+        ...apikeys.map((v) => ({value:v.id, name: v.name}))
+      ]} bind:value={searchOptions.apikey}></Select>
 		</Label>
 		<Label for="dateMin"
 			>Min

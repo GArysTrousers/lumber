@@ -19,8 +19,6 @@ const schema = {
 }
 
 export const POST: RequestHandler = async ({ request }) => {
-
-
   try {
     const data = await request.formData()
     const obj: { [key: string]: string } = {}
@@ -64,7 +62,6 @@ export const POST: RequestHandler = async ({ request }) => {
     console.log(e);
     throw error(400)
   }
-
 };
 
 

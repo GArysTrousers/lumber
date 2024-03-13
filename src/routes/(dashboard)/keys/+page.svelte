@@ -10,25 +10,20 @@
 		TableHeadCell,
 		Input,
 		Button,
-		Toggle
-	} from 'flowbite-svelte';
-	import { TrashBinSolid } from 'flowbite-svelte-icons';
-	import { onMount } from 'svelte';
+		Toggle,
 
-	interface Key {
-		id: number;
-		name: string;
-		code: string;
-		date: string;
-	}
+		Popover
+
+	} from 'flowbite-svelte';
+	import { CloseOutline, TrashBinSolid } from 'flowbite-svelte-icons';
+	import { onMount } from 'svelte';
+	import type { Key } from '../../api/key/get/+server.js';
 
   export let data;
 	let keys: Key[] = [];
 	let searchedKeys: Key[] = [];
-	let showFilters = false;
 	let searchText = '';
 	let newKeyName = '';
-  let required = data.keyRequired;
 
 	onMount(async () => {
 		keys = await api('/api/key/get');
@@ -67,7 +62,7 @@
 
   async function toggleRequired() {
     try {
-			await api('/api/settings/set', { key: 'key_required', value: required });
+			await api('/api/settings/set', { key: 'key_required', value: data.key_required });
 		} catch (error) {
 			console.log(error);
 		}
@@ -75,7 +70,7 @@
 </script>
 <div class="flex flex-row justify-between mb-3">
   <div class="flex flex-row gap-3">
-    <Toggle class="whitespace-nowrap" on:change={toggleRequired} bind:checked={required}>Require Key</Toggle>
+    <Toggle class="whitespace-nowrap" on:change={toggleRequired} bind:checked={data.key_required}>Require Key</Toggle>
   </div>
   <div class="flex flex-row justify-end gap-3 w-full">
     <Input class="max-w-64" bind:value={newKeyName} placeholder="New Key Name" />
@@ -87,18 +82,21 @@
 	<TableHead>
 		<TableHeadCell>Name</TableHeadCell>
 		<TableHeadCell>Code</TableHeadCell>
+		<TableHeadCell>Logs</TableHeadCell>
 		<TableHeadCell>Date</TableHeadCell>
 		<TableHeadCell />
 	</TableHead>
 	<TableBody>
 		{#each searchedKeys as key}
 			<TableBodyRow class="row">
-				<TableBodyCell>{key.name || ''}</TableBodyCell>
-				<TableBodyCell>{key.code || ''}</TableBodyCell>
-				<TableBodyCell>{dayjs(key.date).format('DD-MMM-YYYY') || ''}</TableBodyCell>
+				<TableBodyCell>{key.name}</TableBodyCell>
+				<TableBodyCell>{key.code}</TableBodyCell>
+				<TableBodyCell>{key.count}</TableBodyCell>
+				<TableBodyCell>{dayjs(key.date).format('DD-MMM-YYYY')}</TableBodyCell>
 				<TableBodyCell>
-					<div class="flex flex-row justify-end hover-over-row-show">
-						<Button class="!p-2" size="sm" color="light" on:click={() => erase(key.id)}><TrashBinSolid /></Button>
+					<div class="flex flex-row justify-end hover-over-row-show gap-2">
+						<Button class="!p-2" size="sm" color="light" on:click={() => {}}><TrashBinSolid /></Button>
+						<Button class="!p-2" size="sm" color="light" on:click={() => erase(key.id)}><CloseOutline /></Button>
 					</div>
 				</TableBodyCell>
 			</TableBodyRow>
