@@ -47,8 +47,9 @@ export const POST: RequestHandler = async ({ request }) => {
         let filename = uuid() + '.log';
         await writeFile(`${logfileDir}/${filename}`, body.file);
         body.filename = filename;
-      } catch (error) {
-
+      } catch (e) {
+        console.log(e);
+        
       }
     }
 

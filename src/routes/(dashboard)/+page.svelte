@@ -12,7 +12,8 @@
 		Button,
 		Label,
 		Select,
-		Modal
+		Modal,
+		Toggle
 	} from 'flowbite-svelte';
 
 	import { SearchOutline, FilterOutline, PaperClipOutline } from 'flowbite-svelte-icons';
@@ -21,7 +22,7 @@
 	import type { Key } from '../api/key/get/+server';
 
 	let logs: Log[] = [];
-  let apikeys: Key[] = [];
+	let apikeys: Key[] = [];
 	let showFilters = false;
 	let searchText = '';
 	let filters = {
@@ -38,10 +39,12 @@
 		limit: 500,
 		dateMin: '',
 		dateMax: '',
-    apikey: 0,
+		apikey: 0,
 	};
 	let showFileReader = false;
 	let fileContent = '';
+	let fileHighlighting = true;
+	$: fileLines = fileHighlighting ? fileContent.split('\n') : [];
 
 	$: searchTextLower = searchText.toLowerCase();
 
@@ -57,14 +60,14 @@
 
 	onMount(async () => {
 		getLogs();
-    getApikeys();
+		getApikeys();
 	});
 
 	async function getLogs() {
 		logs = await api('/api/log/get', { options: searchOptions });
 	}
 
-  async function getApikeys() {
+	async function getApikeys() {
 		apikeys = await api('/api/key/get');
 	}
 
@@ -74,6 +77,11 @@
 			fileContent = res.content;
 			showFileReader = true;
 		} catch (e) {}
+	}
+
+	function getLineClass(line: string) {
+		if (line.match(/(error|failed)/gi)) return 'bg-red-700';
+		return '';
 	}
 </script>
 
@@ -85,10 +93,10 @@
 		</Label>
 		<Label for="apikey"
 			>Api Key
-			<Select items={[
-        {value: 0, name: "Any"},
-        ...apikeys.map((v) => ({value:v.id, name: v.name}))
-      ]} bind:value={searchOptions.apikey}></Select>
+			<Select
+				items={[{ value: 0, name: 'Any' }, ...apikeys.map((v) => ({ value: v.id, name: v.name }))]}
+				bind:value={searchOptions.apikey}
+			></Select>
 		</Label>
 		<Label for="dateMin"
 			>Min
@@ -198,5 +206,14 @@
 </Table>
 
 <Modal title="File" size="lg" bind:open={showFileReader} autoclose outsideclose>
-	<pre class="w-full">{fileContent}</pre>
+	<Toggle bind:checked={fileHighlighting}>Highlighting</Toggle>
+	{#if fileHighlighting}
+		<div class="flex flex-col">
+			{#each fileLines as line}
+				<div class={getLineClass(line)}>{line}</div>
+			{/each}
+		</div>
+	{:else}
+		<pre class="w-full">{fileContent}</pre>
+	{/if}
 </Modal>
