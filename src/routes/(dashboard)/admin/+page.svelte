@@ -15,7 +15,6 @@
 	import type { PageData } from '../$types';
 	import { onMount } from 'svelte';
 	import { DotsHorizontalOutline } from 'flowbite-svelte-icons';
-	import { number } from 'zod';
 	interface User {
 		id: number;
 		username: string;
@@ -163,7 +162,7 @@
 		<Input type="email" bind:value={selectedUser.email} />
 	</Label>
 	<div class="flex justify-end">
-		<Button on:click={updateUser}>Create</Button>
+		<Button on:click={updateUser}>Save</Button>
 	</div>
 </Modal>
 
