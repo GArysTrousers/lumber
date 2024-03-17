@@ -16,7 +16,7 @@ const schema = {
 export const POST: RequestHandler = async({ request }) => {
   const body = schema.body.parse(await request.json())
 
-  let res = await sql.get(`
+  let res = await sql.set(`
   UPDATE user
   SET username = :username, 
   email = :email
