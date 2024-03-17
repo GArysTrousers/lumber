@@ -20,12 +20,8 @@ export const POST: RequestHandler = async ({ request }) => {
 
   const { options } = schema.body.parse(await request.json())
 
-  options.dateMin = options.dateMin
-    ? options.dateMin = sqlDate(options.dateMin)
-    : options.dateMin = sqlDate(0);
-  options.dateMax = options.dateMax
-    ? options.dateMax = sqlDate(options.dateMax, 1)
-    : options.dateMax = sqlDate(Date.now(), 1);
+  options.dateMin = sqlDate(options.dateMin ? options.dateMin : 0, 0)
+  options.dateMax = sqlDate(options.dateMax ? options.dateMax : Date.now(), 1)
 
 
   let logs = await sql.get(
@@ -34,7 +30,7 @@ export const POST: RequestHandler = async ({ request }) => {
     AND date < :dateMax
     ${options.apikey > 0 ? 'AND apikeyId = :apikey ':''}
     ORDER BY date DESC 
-    ${options.limit > 0 ? 'LIMIT :limit' : ''}`, body.options)
+    ${options.limit > 0 ? 'LIMIT :limit' : ''}`, options)
 
   logs = logs.map((v) => ({
     ...v,

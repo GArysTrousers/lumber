@@ -4,7 +4,7 @@ export async function api<T = any>(url: string, body = {}, fetchMethod = fetch):
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body)
   }).then(async (t) =>  {
-    if (t.ok) return await t.json()
+    if (t.status == 200) return await t.json()
     else throw new Error(t.status.toString())
   })
 

@@ -11,9 +11,7 @@
 		Input,
 		Button,
 		Toggle,
-
 		Popover
-
 	} from 'flowbite-svelte';
 	import { CloseOutline, TrashBinSolid } from 'flowbite-svelte-icons';
 	import { onMount } from 'svelte';
@@ -95,8 +93,8 @@
 				<TableBodyCell>{dayjs(key.date).format('DD-MMM-YYYY')}</TableBodyCell>
 				<TableBodyCell>
 					<div class="flex flex-row justify-end hover-over-row-show gap-2">
-						<Button class="!p-2" size="sm" color="light" on:click={() => {}}><TrashBinSolid /></Button>
-						<Button class="!p-2" size="sm" color="light" on:click={() => erase(key.id)}><CloseOutline /></Button>
+						<Button class="!p-2" size="sm" color="light" title="Clear Logs" on:click={() => {}}><TrashBinSolid /></Button>
+						<Button class="!p-2" size="sm" color="light" title="Delete Key" on:click={() => erase(key.id)}><CloseOutline /></Button>
 					</div>
 				</TableBodyCell>
 			</TableBodyRow>
