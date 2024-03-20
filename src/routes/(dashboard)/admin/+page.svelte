@@ -12,7 +12,6 @@
 		Label,
 		Modal
 	} from 'flowbite-svelte';
-	import type { PageData } from '../$types';
 	import { onMount } from 'svelte';
 	import { DotsHorizontalOutline } from 'flowbite-svelte-icons';
 	interface User {
@@ -34,7 +33,7 @@
 	let showNewUser = false;
 	let showEditUser = false;
 
-	export let data: PageData;
+  export let data;
 
 	onMount(async () => {
 		getUsers();

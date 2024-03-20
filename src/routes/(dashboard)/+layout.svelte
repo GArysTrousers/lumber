@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import { CogOutline } from 'flowbite-svelte-icons';
 	import '../../app.css';
-	import { Button, DarkMode, Heading } from 'flowbite-svelte';
+	import { Button, DarkMode, Dropdown, DropdownItem, Heading } from 'flowbite-svelte';
 	import { goto } from '$app/navigation';
 	let darkmodebtn =
 		'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-lg p-2.5 fixed right-4 top-2 z-50';
@@ -48,9 +48,17 @@
 						<span class="nav-link-text">{link.label}</span>
 					</a>
 				{/each}
-				<Button color="alternative" class="!p-2" on:click={() => goto('/admin')}
-					><CogOutline /></Button
-				>
+				<div class="flex flex-row gap-1">
+          <Button color="alternative" class="!p-2"><CogOutline /></Button>
+          <Dropdown class="p-1">
+            <DropdownItem class="rounded-lg" href="/admin">Settings</DropdownItem>
+            <DropdownItem class="rounded-lg" href="/auth/logout">Logout</DropdownItem>
+          </Dropdown>
+					<!-- <Button color="alternative" class="!p-2" on:click={() => goto('/admin')}>Logout</Button>
+					<Button color="alternative" class="!p-2" on:click={() => goto('/admin')}
+						><CogOutline />
+					</Button> -->
+				</div>
 			</div>
 		</div>
 		<slot />

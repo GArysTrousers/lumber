@@ -47,7 +47,7 @@
 	"dependencies": {
 		"cron": "^3.1.6",
 		"dayjs": "^1.11.10",
-		"mega-session": "^1.0.0",
+		"mega-session": "^1.1.2",
 		"mysql2": "^3.9.2",
 		"uuid": "^9.0.1",
 		"zod": "^3.22.4"
