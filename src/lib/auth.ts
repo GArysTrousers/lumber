@@ -1,5 +1,7 @@
+import { error } from "@sveltejs/kit";
+import type { Session } from "../app";
 import { sql } from "../hooks.server";
-import { compare } from "bcrypt";
+import bcrypt from "bcryptjs";
 
 export interface DbUser {
   username: string;
@@ -19,7 +21,7 @@ export async function authMySql(username: string, password: string) {
       { username }
     )
     if (user) {
-      if (user.passhash == '' || await compare(password, user.passhash)) {
+      if (user.passhash == '' || await bcrypt.compare(password, user.passhash)) {
         return {
           username: user.username,
           email: user.email,
@@ -28,4 +30,8 @@ export async function authMySql(username: string, password: string) {
     }
   } catch (e) { }
   return null;
+}
+
+export function permission(session: Session) {
+  if (!session.username) throw error(401);
 }

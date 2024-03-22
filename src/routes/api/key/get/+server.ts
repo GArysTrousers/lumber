@@ -1,9 +1,11 @@
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
 import { sql } from "../../../../hooks.server";
+import { permission } from "$lib/auth";
 
 
-export const POST: RequestHandler = async({ request }) => {
+export const POST: RequestHandler = async ({ request, locals }) => {
+  permission(locals.session);
 
   let logs = await sql.get(`
   SELECT ak.*, COUNT(log.apikeyId) as count FROM apikey ak

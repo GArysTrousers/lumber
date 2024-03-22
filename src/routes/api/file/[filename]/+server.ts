@@ -2,9 +2,12 @@ import { json, error } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
 import { readFile, access } from "fs/promises";
 import { logfileDir } from "$env/static/private";
+import { permission } from "$lib/auth";
 
 
-export const POST: RequestHandler = async ({ params }) => {
+export const POST: RequestHandler = async ({ params, locals }) => {
+  
+  permission(locals.session);
   let { filename } = params
 
   try {

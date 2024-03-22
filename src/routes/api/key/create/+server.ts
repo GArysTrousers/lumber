@@ -3,6 +3,7 @@ import type { RequestHandler } from "./$types";
 import { z } from "zod";
 import { sql } from "../../../../hooks.server";
 import { v4 as uuid } from "uuid";
+import { permission } from "$lib/auth";
 
 const schema = {
   body: z.object({
@@ -10,7 +11,8 @@ const schema = {
   })
 }
 
-export const POST: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async ({ request, locals }) => {
+  permission(locals.session);
   try {
     const body = schema.body.parse(await request.json())
     const data = {

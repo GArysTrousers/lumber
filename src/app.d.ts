@@ -7,9 +7,14 @@ import type { User } from "$lib/auth";
 declare namespace App {
 	interface Locals {
     sessionId: string;
-    session: User
+    session: Session
   }
 	// interface Platform {}
 	// interface Session {}
 	// interface Stuff {}
+}
+
+
+export interface Session extends User {
+  
 }

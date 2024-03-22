@@ -2,6 +2,7 @@ import { error, json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
 import { z } from "zod";
 import { setSetting, settingKeys } from "$lib/settings";
+import { permission } from "$lib/auth";
 
 const schema = {
   body: z.object({
@@ -10,7 +11,8 @@ const schema = {
   })
 }
 
-export const POST: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async ({ request, locals }) => {
+  permission(locals.session);
   try {
     const body = schema.body.parse(await request.json())
     await setSetting(body.key, body.value)
