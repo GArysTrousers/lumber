@@ -30,10 +30,15 @@
 		email: '',
 		password: ''
 	};
+	let changePasswordData = {
+		id: 0,
+		password: ''
+	};
 	let showNewUser = false;
 	let showEditUser = false;
+	let showChangePassword = false;
 
-  export let data;
+	export let data;
 
 	onMount(async () => {
 		getUsers();
@@ -62,7 +67,7 @@
 		} catch (e) {}
 	}
 
-  function openEditUserModal(user: User) {
+	function openEditUserModal(user: User) {
 		selectedUser = user;
 		showEditUser = true;
 	}
@@ -72,6 +77,20 @@
 			let res = await api('/api/user/update', { user: selectedUser });
 			getUsers();
 			showEditUser = false;
+		} catch (e) {}
+	}
+
+	function openChangePasswordModal(user: User) {
+		changePasswordData.id = user.id;
+		changePasswordData.password = '';
+		showChangePassword = true;
+	}
+
+	async function submitChangePassword() {
+		try {
+			let res = await api('/api/user/change_password', changePasswordData);
+			getUsers();
+			showChangePassword = false;
 		} catch (e) {}
 	}
 
@@ -117,8 +136,12 @@
 					<div class="my-auto">
 						<Button class="!p-2" color="light"><DotsHorizontalOutline /></Button>
 						<Dropdown class="p-1">
-							<DropdownItem class="rounded-lg">Change Password</DropdownItem>
-							<DropdownItem class="rounded-lg" on:click={() => openEditUserModal(u)}>Edit</DropdownItem>
+							<DropdownItem class="rounded-lg" on:click={() => openChangePasswordModal(u)}
+								>Change Password</DropdownItem
+							>
+							<DropdownItem class="rounded-lg" on:click={() => openEditUserModal(u)}
+								>Edit</DropdownItem
+							>
 							<DropdownDivider></DropdownDivider>
 							<DropdownItem
 								class="rounded-lg hover:!bg-red-500"
@@ -162,6 +185,16 @@
 	</Label>
 	<div class="flex justify-end">
 		<Button on:click={updateUser}>Save</Button>
+	</div>
+</Modal>
+
+<Modal title="Change Password" size="xs" bind:open={showChangePassword}>
+	<Label>
+		New Password
+		<Input type="password" bind:value={changePasswordData.password} />
+	</Label>
+	<div class="flex justify-end">
+		<Button on:click={submitChangePassword}>Save</Button>
 	</div>
 </Modal>
 

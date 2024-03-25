@@ -13,18 +13,21 @@
 	}
 </script>
 
-<div class="flex flex-row justify-center items-center mb-5">
+<main class="flex flex-row justify-center items-center mb-5">
 	<Card>
-		<div class="flex flex-col gap-3">
-			<Heading class="text-center">Lumber</Heading>
+		<div class="flex flex-col">
+			<Heading class="text-center mb-8">Lumber</Heading>
 			<div class="flex flex-col gap-2">
 				<Input bind:value={username} placeholder="Username" />
 				<Input bind:value={password} placeholder="Password" type="password" />
-				<Button on:click={login}>Logon</Button>
+				<Button on:click={login}>Login</Button>
 			</div>
 		</div>
 	</Card>
-</div>
+</main>
 
 <style>
+  main {
+    height: 80vh;
+  }
 </style>

@@ -16,8 +16,8 @@
 
 
 -- Dumping database structure for logging
-CREATE DATABASE IF NOT EXISTS `logging` /*!40100 DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci */;
-USE `logging`;
+CREATE DATABASE IF NOT EXISTS `lumber` /*!40100 DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci */;
+USE `lumber`;
 
 -- Dumping structure for table logging.apikey
 DROP TABLE IF EXISTS `apikey`;

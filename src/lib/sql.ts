@@ -34,47 +34,29 @@ export class Sql {
   }
 
   async get<T = any>(query: string, data: Record<string, any> | any[] = {}) {
-    try {
-      const con = Array.isArray(data)
-        ? this.unnamedPool.promise()
-        : this.namedPool.promise()
-      const res = await con.execute(query, data)
-      return res[0] as T[]
-    }
-    catch (e) {
-      console.log(e);
-      throw e
-    }
+    const con = Array.isArray(data)
+      ? this.unnamedPool.promise()
+      : this.namedPool.promise()
+    const res = await con.execute(query, data)
+    return res[0] as T[]
   }
 
   async getOne<T = any>(query: string, data: Record<string, any> | any[] = {}) {
-    try {
-      const con = Array.isArray(data)
-        ? this.unnamedPool.promise()
-        : this.namedPool.promise()
-      const res = await con.execute(query, data)
-      if (Array.isArray(res[0]) && res[0].length > 0)
-        return res[0][0] as T
-      else
-        throw new Error("No Results")
-    }
-    catch (e) {
-      console.log(e);
-      throw e
-    }
+    const con = Array.isArray(data)
+      ? this.unnamedPool.promise()
+      : this.namedPool.promise()
+    const res = await con.execute(query, data)
+    if (Array.isArray(res[0]) && res[0].length > 0)
+      return res[0][0] as T
+    else
+      throw new Error("No Results")
   }
 
   async set(query: string, data: any | any[] = {}) {
-    try {
-      const con = Array.isArray(data)
-        ? this.unnamedPool.promise()
-        : this.namedPool.promise()
-      const res = await con.execute(query, data)
-      return res[0] as ResultSetHeader
-    }
-    catch (e) {
-      console.log(e);
-      throw e
-    }
+    const con = Array.isArray(data)
+      ? this.unnamedPool.promise()
+      : this.namedPool.promise()
+    const res = await con.execute(query, data)
+    return res[0] as ResultSetHeader
   }
 }

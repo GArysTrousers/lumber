@@ -4,7 +4,8 @@ import { redirect, type Handle } from '@sveltejs/kit';
 import { dbHost, dbName, dbUsername, dbPassword } from "$env/static/private";
 import { CronJob } from "cron";
 import { removeOldLogs } from '$lib/cleanup';
-import { SessionManager, RedisProvider } from "mega-session";
+import { SessionManager, InternalProvider } from "mega-session";
+import { checkDB } from '$lib/init';
 
 
 export const sql = new Sql({
@@ -14,6 +15,9 @@ export const sql = new Sql({
   password: dbPassword
 })
 
+await checkDB(sql);
+
+// Setup Settings
 setDB(sql)
 await checkSettings()
 
@@ -28,18 +32,15 @@ const cleanupLogsJob = CronJob.from({
 });
 
 let sm = new SessionManager(
-  new RedisProvider({
-    host: 'localhost',
-    port: '6379',
-    db: '0',
-    user: '',
-    password: '',
-  }), {
+  new InternalProvider(), {
   cookieName: "lumber_session_id",
   version: "1",
   timeoutMillis: 1000000,
 })
 await sm.init()
+
+console.log("server started");
+
 
 export const handle: Handle = async ({ event, resolve }) => {
   const [sessionId, session] = await sm.startSession(event.cookies.get(sm.options.cookieName));

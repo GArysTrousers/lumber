@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Heading, Input, Card, Button, Spinner, A } from 'flowbite-svelte';
+	import { Heading, Card, Spinner, A } from 'flowbite-svelte';
 	import { api } from '$lib/api';
 	import { onMount } from 'svelte';
 
@@ -16,10 +16,10 @@
 	}
 </script>
 
-<div class="flex flex-row justify-center items-center mb-5">
+<main class="flex flex-row justify-center items-center mb-5">
 	<Card>
-		<div class="flex flex-col gap-3">
-			<Heading class="text-center">Lumber</Heading>
+		<div class="flex flex-col">
+			<Heading class="text-center mb-8">Lumber</Heading>
 			<div class="flex flex-col gap-2 text-center">
 				{#if result == 'waiting'}
 					<div>Logging out <Spinner></Spinner></div>
@@ -27,12 +27,15 @@
 					<div>You have been logged out.</div>
 					<div><A href="/auth">Click here to login</A></div>
 				{:else}
-					<div></div>
+					<div>Error</div>
 				{/if}
 			</div>
 		</div>
 	</Card>
-</div>
+</main>
 
 <style>
+  main {
+    height: 80vh;
+  }
 </style>
