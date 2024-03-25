@@ -1,7 +1,7 @@
 import mysql from 'mysql2'
 import type { Pool, ResultSetHeader } from 'mysql2'
 
-interface Options {
+export interface Options {
   host: string;
   user: string;
   password: string;

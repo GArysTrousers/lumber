@@ -8,8 +8,8 @@ export const settingKeys = [
   "max_log_age"
 ] as const;
 
-const SettingName = z.enum(settingKeys);
-type SettingName = z.infer<typeof SettingName>;
+export const SettingName = z.enum(settingKeys);
+export type SettingName = z.infer<typeof SettingName>;
 
 export const defaultSettings = {
   key_required: true,
@@ -18,19 +18,6 @@ export const defaultSettings = {
 
 export function setDB(db: Sql) {
   sql = db;
-}
-
-export async function checkSettings() {
-  for (const [key, value] of Object.entries(defaultSettings)) {
-    try {
-      await getSetting(SettingName.parse(key))
-    } catch (error) {
-      await sql.set(`
-      INSERT INTO settings (\`key\`, value) 
-      VALUES (:key, :value)`,
-        { key, value: JSON.stringify(value) })
-    }
-  }
 }
 
 export async function getSetting(key: SettingName) {

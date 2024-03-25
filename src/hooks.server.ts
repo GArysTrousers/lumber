@@ -6,21 +6,20 @@ import { CronJob } from "cron";
 import { removeOldLogs } from '$lib/cleanup';
 import { SessionManager, InternalProvider } from "mega-session";
 import { checkDB } from '$lib/init';
+import { building } from '$app/environment';
 
-
-export const sql = new Sql({
+const sqlOptions = {
   host: dbHost,
   database: dbName,
   user: dbUsername,
   password: dbPassword
-})
+}
 
-await checkDB(sql);
+if (building) {
+  await checkDB(sqlOptions);
+}
 
-// Setup Settings
-setDB(sql)
-await checkSettings()
-
+export const sql = new Sql(sqlOptions)
 
 const cleanupLogsJob = CronJob.from({
   cronTime: '0 0 * * *',
@@ -39,8 +38,7 @@ let sm = new SessionManager(
 })
 await sm.init()
 
-console.log("server started");
-
+setDB(sql)
 
 export const handle: Handle = async ({ event, resolve }) => {
   const [sessionId, session] = await sm.startSession(event.cookies.get(sm.options.cookieName));

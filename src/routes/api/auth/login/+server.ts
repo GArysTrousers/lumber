@@ -15,7 +15,6 @@ export const POST: RequestHandler = async ({ request, url, locals }) => {
     let body = schema.body.parse(await request.json());
 
     const user = await authMySql(body.username, body.password);
-    console.log(user);
     
     if (user) {
       locals.session.username = user
