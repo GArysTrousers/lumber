@@ -1,3 +1,10 @@
+# Prerequisites
+
+- Nodejs v20
+- MariaDB/MySQL
+  - A user with access to create a database (to initialise on first build)
+- 
+
 # Installation
 
 - Clone repo
