@@ -34,7 +34,7 @@ let sm = new SessionManager(
   new InternalProvider(), {
   cookieName: "lumber_session_id",
   version: "1",
-  timeoutMillis: 1000000,
+  timeoutMillis: 1000 * 60 * 60 * 12,
 })
 await sm.init()
 

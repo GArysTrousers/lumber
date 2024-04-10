@@ -23,6 +23,11 @@
 			label: 'Keys'
 		},
 		{
+			url: '/scripts',
+			pattern: '^/scripts',
+			label: 'Scripts'
+		},
+		{
 			url: '/analyse',
 			pattern: '^/analyse',
 			label: 'Analyse'
