@@ -41,7 +41,7 @@
 <DarkMode btnClass={darkmodebtn} />
 
 <div class="flex flex-row justify-center p-5">
-	<div class="w-full max-w-5xl">
+	<div class="w-full max-w-6xl">
 		<div class="flex flex-row mb-5">
 			<Heading><a href="/">Lumber</a></Heading>
 			<div class="flex flex-row items-end gap-5">

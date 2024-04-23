@@ -145,9 +145,9 @@
 <Table class="w-full table-fixed">
 	<colgroup>
 		<col width="150px" />
-		<col width="100px" />
-		<col width="100px" />
-		<col width="100px" />
+		<col width="" />
+		<col width="" />
+		<col width="" />
 		<col width="" />
 		<!-- <col width="80px" /> -->
 	</colgroup>
@@ -157,7 +157,6 @@
 		<TableHeadCell>User</TableHeadCell>
 		<TableHeadCell>Machine</TableHeadCell>
 		<TableHeadCell>Message</TableHeadCell>
-		<!-- <TableHeadCell>File</TableHeadCell> -->
 	</TableHead>
 	<TableBody>
 		{#each searchedLogs as log}
