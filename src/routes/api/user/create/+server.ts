@@ -27,7 +27,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     }
     let res = await sql.get(`
       INSERT INTO user (username, passhash, email) 
-      VALUES (:username, :passhash, :email)`,
+      VALUES (@username, @passhash, @email)`,
       data
     )
 

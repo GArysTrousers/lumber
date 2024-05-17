@@ -1,34 +1,30 @@
 import { checkSettings, setDB } from '$lib/settings';
 import { Sql } from '$lib/sql';
 import { redirect, type Handle } from '@sveltejs/kit';
-import { dbHost, dbName, dbUsername, dbPassword } from "$env/static/private";
+import { dbFile,  } from "$env/static/private";
 import { CronJob } from "cron";
 import { removeOldLogs } from '$lib/cleanup';
 import { SessionManager, InternalProvider } from "mega-session";
 import { checkDB } from '$lib/init';
 import { building } from '$app/environment';
+import Database from "better-sqlite3";
 
-const sqlOptions = {
-  host: dbHost,
-  database: dbName,
-  user: dbUsername,
-  password: dbPassword
-}
+// if (building) {
+//   await checkDB();
+// }
 
-if (building) {
-  await checkDB(sqlOptions);
-}
+await checkDB()
 
-export const sql = new Sql(sqlOptions)
+export const sql = new Sql(dbFile)
 
-const cleanupLogsJob = CronJob.from({
-  cronTime: '0 0 * * *',
-  onTick: async () => {
-    await removeOldLogs(sql);
-  },
-  start: true,
-  timeZone: 'system'
-});
+// const cleanupLogsJob = CronJob.from({
+//   cronTime: '0 0 * * *',
+//   onTick: async () => {
+//     await removeOldLogs(sql);
+//   },
+//   start: true,
+//   timeZone: 'system'
+// });
 
 let sm = new SessionManager(
   new InternalProvider(), {
@@ -38,7 +34,7 @@ let sm = new SessionManager(
 })
 await sm.init()
 
-setDB(sql)
+// setDB(sql)
 
 export const handle: Handle = async ({ event, resolve }) => {
   const [sessionId, session] = await sm.startSession(event.cookies.get(sm.options.cookieName));

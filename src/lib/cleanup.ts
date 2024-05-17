@@ -1,5 +1,5 @@
 import { getSetting } from "./settings";
-import type { Sql } from "./sql";
+import type { Sql } from "./sqlOld";
 import { sqlDate } from "./date-utils";
 import { rm } from "fs/promises";
 import { logfileDir } from "$env/static/private";

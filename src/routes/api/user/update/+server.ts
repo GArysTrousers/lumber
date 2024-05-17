@@ -20,9 +20,9 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 
   let res = await sql.set(`
   UPDATE user
-  SET username = :username, 
-  email = :email
-  WHERE id = :id`, body.newUser)
+  SET username = @username, 
+  email = @email
+  WHERE id = @id`, body.newUser)
 
   return json(res)
 };

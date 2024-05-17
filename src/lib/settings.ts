@@ -1,7 +1,5 @@
 import { z } from "zod";
-import type { Sql } from "./sql";
-
-let sql: Sql
+import { sql } from "../hooks.server";
 
 export const settingKeys = [
   "key_required",
@@ -16,15 +14,11 @@ export const defaultSettings = {
   max_log_age: 60,
 }
 
-export function setDB(db: Sql) {
-  sql = db;
-}
-
 export async function getSetting(key: SettingName) {
   if (!settingKeys.includes(key)) throw new Error("Setting doesn't exist")
   try {
     let res = await sql.getOne<{ value: any }>(
-      `SELECT value FROM settings WHERE \`key\` = :key`,
+      `SELECT value FROM settings WHERE \`key\` = @key`,
       { key })
     return JSON.parse(res.value)
   } catch (e) {
@@ -37,7 +31,7 @@ export async function setSetting(key: SettingName, value: any) {
   await sql.set(
     `UPDATE settings 
     SET value = :value
-    WHERE \`key\` = :key`,
+    WHERE \`key\` = @key`,
     {
       key: key,
       value: JSON.stringify(value)

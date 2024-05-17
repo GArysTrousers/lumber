@@ -14,10 +14,28 @@ export interface User {
   email: string;
 }
 
-export async function authMySql(username: string, password: string) {
+// export async function authMySql(username: string, password: string) {
+//   try {
+//     let user = await sql.getOne<DbUser>(
+//       `SELECT * FROM user WHERE username = :username`,
+//       { username }
+//     )
+//     if (user) {
+//       if (user.passhash == '' || await bcrypt.compare(password, user.passhash)) {
+//         return {
+//           username: user.username,
+//           email: user.email,
+//         } as User
+//       }
+//     }
+//   } catch (e) { }
+//   return null;
+// }
+
+export async function authSqlite(username: string, password: string) {
   try {
     let user = await sql.getOne<DbUser>(
-      `SELECT * FROM user WHERE username = :username`,
+      `SELECT * FROM user WHERE username = @username`,
       { username }
     )
     if (user) {
