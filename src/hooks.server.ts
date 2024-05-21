@@ -38,7 +38,6 @@ await sm.init()
 
 export const handle: Handle = async ({ event, resolve }) => {
   const [sessionId, session] = await sm.startSession(event.cookies.get(sm.options.cookieName));
-
   event.locals.sessionId = sessionId;
   event.locals.session = session.data;
 

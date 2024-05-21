@@ -1,7 +1,7 @@
 import { error } from "@sveltejs/kit";
-import type { Session } from "../app";
 import { sql } from "../hooks.server";
 import bcrypt from "bcryptjs";
+import type { Session } from "../app";
 
 export interface DbUser {
   username: string;
