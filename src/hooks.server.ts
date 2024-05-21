@@ -1,4 +1,4 @@
-import { checkSettings, setDB } from '$lib/settings';
+
 import { Sql } from '$lib/sql';
 import { redirect, type Handle } from '@sveltejs/kit';
 import { dbFile,  } from "$env/static/private";
@@ -7,7 +7,6 @@ import { removeOldLogs } from '$lib/cleanup';
 import { SessionManager, InternalProvider } from "mega-session";
 import { checkDB } from '$lib/init';
 import { building } from '$app/environment';
-import Database from "better-sqlite3";
 
 // if (building) {
 //   await checkDB();
@@ -17,14 +16,14 @@ await checkDB()
 
 export const sql = new Sql(dbFile)
 
-// const cleanupLogsJob = CronJob.from({
-//   cronTime: '0 0 * * *',
-//   onTick: async () => {
-//     await removeOldLogs(sql);
-//   },
-//   start: true,
-//   timeZone: 'system'
-// });
+const cleanupLogsJob = CronJob.from({
+  cronTime: '0 0 * * *',
+  onTick: async () => {
+    await removeOldLogs(sql);
+  },
+  start: true,
+  timeZone: 'system'
+});
 
 let sm = new SessionManager(
   new InternalProvider(), {
@@ -33,8 +32,6 @@ let sm = new SessionManager(
   timeoutMillis: 1000 * 60 * 60 * 12,
 })
 await sm.init()
-
-// setDB(sql)
 
 export const handle: Handle = async ({ event, resolve }) => {
   const [sessionId, session] = await sm.startSession(event.cookies.get(sm.options.cookieName));

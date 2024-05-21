@@ -1,5 +1,5 @@
 import { getSetting } from "./settings";
-import type { Sql } from "./sqlOld";
+import type { Sql } from "./sql";
 import { sqlDate } from "./date-utils";
 import { rm } from "fs/promises";
 import { logfileDir } from "$env/static/private";
@@ -11,10 +11,10 @@ export async function removeOldLogs(sql: Sql) {
 
   const filenames = (await sql.get(`
     SELECT filename FROM log 
-    WHERE date < :date AND filename IS NOT NULL`,
+    WHERE date < @date AND filename IS NOT NULL`,
     { date })).map((v) => v.filename)
 
-  await sql.get(`DELETE FROM log WHERE date < :date`, { date })
+  await sql.get(`DELETE FROM log WHERE date < @date`, { date })
 
   for (const filename of filenames) {
     try {
