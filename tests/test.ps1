@@ -1,4 +1,4 @@
-Invoke-WebRequest "https://lumber.bairnsdalesc.vic.edu.au/submit" -Method Post -Body @{
+Invoke-WebRequest "http://localhost:5173/submit" -Method Post -Body @{
   type    = "Test"
   message = "This is a test"
   user    = $env:USERNAME

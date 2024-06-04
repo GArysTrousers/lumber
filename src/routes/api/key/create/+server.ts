@@ -19,7 +19,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
       name: body.name,
       code: uuid().substring(4, 23)
     }
-    let logs = await sql.get(`INSERT INTO apikey (name, code) VALUES (:name, :code)`, data)
+    let logs = await sql.get(`INSERT INTO apikey (name, code) VALUES (@name, @code)`, data)
 
     return json(logs)
   } catch (e) {

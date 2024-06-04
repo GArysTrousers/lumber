@@ -1,30 +1,13 @@
-import { z } from "zod";
-import type { Sql } from "./sql";
 
-let sql: Sql
+import { sql } from "../hooks.server";
+import type { Setting } from "./types";
 
-export const settingKeys = [
-  "key_required",
-  "max_log_age"
-] as const;
+export const defaultSettings = [true, 60]
 
-export const SettingName = z.enum(settingKeys);
-export type SettingName = z.infer<typeof SettingName>;
-
-export const defaultSettings = {
-  key_required: true,
-  max_log_age: 60,
-}
-
-export function setDB(db: Sql) {
-  sql = db;
-}
-
-export async function getSetting(key: SettingName) {
-  if (!settingKeys.includes(key)) throw new Error("Setting doesn't exist")
+export async function getSetting(key: Setting) {
   try {
     let res = await sql.getOne<{ value: any }>(
-      `SELECT value FROM settings WHERE \`key\` = :key`,
+      `SELECT value FROM settings WHERE \`key\` = @key`,
       { key })
     return JSON.parse(res.value)
   } catch (e) {
@@ -32,12 +15,11 @@ export async function getSetting(key: SettingName) {
   }
 }
 
-export async function setSetting(key: SettingName, value: any) {
-  if (!settingKeys.includes(key)) throw new Error("Setting doesn't exist")
+export async function setSetting(key: Setting, value: any) {
   await sql.set(
     `UPDATE settings 
-    SET value = :value
-    WHERE \`key\` = :key`,
+    SET value = @value
+    WHERE \`key\` = @key`,
     {
       key: key,
       value: JSON.stringify(value)

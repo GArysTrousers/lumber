@@ -23,8 +23,8 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 
   let res = await sql.set(`
   UPDATE user
-  SET passhash = :passhash
-  WHERE id = :id`, data)
+  SET passhash = @passhash
+  WHERE id = @id`, data)
 
   return json(res)
 };

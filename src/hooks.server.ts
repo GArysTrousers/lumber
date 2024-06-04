@@ -1,25 +1,16 @@
-import { checkSettings, setDB } from '$lib/settings';
+
 import { Sql } from '$lib/sql';
 import { redirect, type Handle } from '@sveltejs/kit';
-import { dbHost, dbName, dbUsername, dbPassword } from "$env/static/private";
 import { CronJob } from "cron";
 import { removeOldLogs } from '$lib/cleanup';
 import { SessionManager, InternalProvider } from "mega-session";
-import { checkDB } from '$lib/init';
-import { building } from '$app/environment';
+import { dataDir } from '$env/static/private';
 
-const sqlOptions = {
-  host: dbHost,
-  database: dbName,
-  user: dbUsername,
-  password: dbPassword
-}
+export const dbFile = dataDir + "/lumber.db"
+export const attachmentDir = dataDir + "/attachments"
 
-if (building) {
-  await checkDB(sqlOptions);
-}
 
-export const sql = new Sql(sqlOptions)
+export const sql = new Sql(dbFile)
 
 const cleanupLogsJob = CronJob.from({
   cronTime: '0 0 * * *',
@@ -38,11 +29,8 @@ let sm = new SessionManager(
 })
 await sm.init()
 
-setDB(sql)
-
 export const handle: Handle = async ({ event, resolve }) => {
   const [sessionId, session] = await sm.startSession(event.cookies.get(sm.options.cookieName));
-
   event.locals.sessionId = sessionId;
   event.locals.session = session.data;
 

@@ -1,8 +1,8 @@
 import { json, error } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
 import { readFile, access } from "fs/promises";
-import { logfileDir } from "$env/static/private";
 import { permission } from "$lib/auth";
+import { attachmentDir } from "../../../../hooks.server";
 
 
 export const POST: RequestHandler = async ({ params, locals }) => {
@@ -11,13 +11,13 @@ export const POST: RequestHandler = async ({ params, locals }) => {
   let { filename } = params
 
   try {
-    await access(`${logfileDir}/${filename}`)
+    await access(`${attachmentDir}/${filename}`)
   } catch (e) {
     throw error(400, "File doesn't exist")
   }
 
   try {
-    const content = await readFile(`${logfileDir}/${filename}`, { encoding: 'utf8' })
+    const content = await readFile(`${attachmentDir}/${filename}`, { encoding: 'utf8' })
     return json({ content })
   } catch (e) {
     throw error(500)

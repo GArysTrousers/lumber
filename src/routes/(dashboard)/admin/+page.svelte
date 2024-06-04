@@ -14,6 +14,7 @@
 	} from 'flowbite-svelte';
 	import { onMount } from 'svelte';
 	import { DotsHorizontalOutline } from 'flowbite-svelte-icons';
+	import { Setting } from '$lib/types.js';
 	interface User {
 		id: number;
 		username: string;
@@ -96,7 +97,7 @@
 
 	async function saveCleanupSettings() {
 		try {
-			await api('/api/settings/set', { key: 'max_log_age', value: data.max_log_age });
+			await api('/api/settings/set', { key: Setting.MaxLogAge, value: data.max_log_age });
 		} catch (e) {}
 	}
 </script>
