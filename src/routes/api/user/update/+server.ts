@@ -6,7 +6,7 @@ import { permission } from "$lib/auth";
 
 const schema = {
   body: z.object({
-    newUser: z.object({
+    user: z.object({
       id: z.number(),
       username: z.string().max(64),
       email: z.string().max(64),
@@ -22,7 +22,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   UPDATE user
   SET username = @username, 
   email = @email
-  WHERE id = @id`, body.newUser)
+  WHERE id = @id`, body.user)
 
   return json(res)
 };
