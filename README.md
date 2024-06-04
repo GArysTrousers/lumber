@@ -1,9 +1,6 @@
 # Prerequisites
 
 - Nodejs v20
-- MariaDB/MySQL
-  - A user with access to create a database (to initialise on first build)
-- 
 
 # Installation
 
@@ -11,6 +8,7 @@
 - Create a .env file in the root directory (see below)
 - Start a terminal in the root directory and run:
   - `npm i`
+  - `npm run init`
   - `npm run build`
 
 This will create the database and build the app.
@@ -25,9 +23,5 @@ It will also create a user with:
 
 # .env
 ```
-logfileDir="C:/logs"
-dbHost=localhost
-dbName=lumber
-dbUsername=root
-dbPassword=123456
+dataDir=C:/lumber
 ```
