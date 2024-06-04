@@ -1,10 +1,9 @@
 import { json, error } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
 import { z } from "zod";
-import { sql } from "../../hooks.server";
+import { attachmentDir, sql } from "../../hooks.server";
 import { getSetting } from "$lib/settings";
 import { writeFile } from "fs/promises";
-import { logfileDir } from "$env/static/private";
 import { v4 as uuid } from "uuid";
 
 const schema = {
@@ -45,7 +44,7 @@ export const POST: RequestHandler = async ({ request }) => {
     if (body.file) {
       try {
         let filename = uuid() + '.log';
-        await writeFile(`${logfileDir}/${filename}`, body.file);
+        await writeFile(`${attachmentDir}/${filename}`, body.file);
         body.filename = filename;
       } catch (e) {
         console.log(e);

@@ -10,12 +10,12 @@
 		TableHeadCell,
 		Input,
 		Button,
-		Toggle,
-		Popover
+		Toggle
 	} from 'flowbite-svelte';
 	import { CloseOutline, TrashBinSolid } from 'flowbite-svelte-icons';
 	import { onMount } from 'svelte';
 	import type { Key } from '../../api/key/get/+server.js';
+	import { Setting } from '$lib/types.js';
 
   export let data;
 	let keys: Key[] = [];
@@ -60,7 +60,7 @@
 
   async function toggleRequired() {
     try {
-			await api('/api/settings/set', { key: 'key_required', value: data.key_required });
+			await api('/api/settings/set', { key: Setting.KeyRequired, value: data.key_required });
 		} catch (error) {
 			console.log(error);
 		}

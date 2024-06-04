@@ -1,12 +1,12 @@
 import { error, json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
 import { z } from "zod";
-import { setSetting, settingKeys } from "$lib/settings";
+import { setSetting } from "$lib/settings";
 import { permission } from "$lib/auth";
 
 const schema = {
   body: z.object({
-    key: z.enum(settingKeys),
+    key: z.number(),
     value: z.any()
   })
 }
