@@ -43,7 +43,7 @@
 	};
 	let showFileReader = false;
 	let fileContent = '';
-	let fileHighlighting = true;
+	let fileHighlighting = false;
 	$: fileLines = fileHighlighting ? fileContent.split('\n') : [];
 
 	$: searchTextLower = searchText.toLowerCase();
@@ -209,7 +209,7 @@
 	{#if fileHighlighting}
 		<div class="flex flex-col">
 			{#each fileLines as line}
-				<div class={getLineClass(line)}>{line}</div>
+				<div class={getLineClass(line) + " font-mono"}>{line}</div>
 			{/each}
 		</div>
 	{:else}

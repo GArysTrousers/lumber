@@ -7,7 +7,7 @@ import { SessionManager, InternalProvider } from "mega-session";
 import { dataDir } from '$env/static/private';
 
 export const dbFile = dataDir + "/lumber.db"
-export const attachmentDir = dataDir + "/data"
+export const attachmentDir = dataDir + "/attachments"
 
 
 export const sql = new Sql(dbFile)

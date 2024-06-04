@@ -1,3 +1,4 @@
+import { dev } from '$app/environment';
 import Database from 'better-sqlite3';
 
 export class Sql {
@@ -5,7 +6,7 @@ export class Sql {
   db: any;
 
   constructor(file: string) {
-    this.db = new Database(file, { verbose: console.log })
+    this.db = new Database(file, dev ? { verbose: console.log } : {})
   }
 
   async get<T = any>(query: string, data: Record<string, any> | any[] = {}) {
