@@ -9,20 +9,16 @@ import { dataDir } from '$env/static/private';
 export const dbFile = dataDir + "/lumber.db"
 export const attachmentDir = dataDir + "/attachments"
 
-console.log(dbFile, attachmentDir);
-
 export const sql = new Sql(dbFile)
 
-console.log("hey this is after the sql connect")
-
-// const cleanupLogsJob = CronJob.from({
-//   cronTime: '0 0 * * *',
-//   onTick: async () => {
-//     await removeOldLogs(sql);
-//   },
-//   start: true,
-//   timeZone: 'system'
-// });
+const cleanupLogsJob = CronJob.from({
+  cronTime: '0 0 * * *',
+  onTick: async () => {
+    await removeOldLogs(sql);
+  },
+  start: true,
+  timeZone: 'system'
+});
 
 let sm = new SessionManager(
   new InternalProvider(), {

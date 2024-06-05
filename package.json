@@ -44,7 +44,6 @@
 		"typescript": "^5.4.5",
 		"vite": "^5.0.3",
 		"bcryptjs": "^2.4.3",
-		"better-sqlite3": "^10.0.0",
 		"cron": "^3.1.6",
 		"dayjs": "^1.11.10",
 		"mega-session": "^1.1.2",
@@ -53,5 +52,6 @@
 	},
   "type": "module",
 	"dependencies": {
+		"better-sqlite3": "^10.0.0"
 	}
 }
