@@ -7,14 +7,14 @@
 - Clone repo
 - Create a .env file in the root directory that contains the following:
 ```
-dataDir=C:/lumber (put your data directory here)
+dataDir=[put your data directory here]
 ```
-- Start a terminal in the root directory and run:
+- Start a terminal in the project directory and run:
   - `npm i`
   - `npm run init`
   - `npm run build`
 
-This will create the database and build the app.
+This will create the data directory and database and then build the app.
 It will also create a user with:
 - Username: lumber
 - Password: mill
