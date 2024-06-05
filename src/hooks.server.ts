@@ -13,14 +13,16 @@ console.log(dbFile, attachmentDir);
 
 export const sql = new Sql(dbFile)
 
-const cleanupLogsJob = CronJob.from({
-  cronTime: '0 0 * * *',
-  onTick: async () => {
-    await removeOldLogs(sql);
-  },
-  start: true,
-  timeZone: 'system'
-});
+console.log("hey this is after the sql connect")
+
+// const cleanupLogsJob = CronJob.from({
+//   cronTime: '0 0 * * *',
+//   onTick: async () => {
+//     await removeOldLogs(sql);
+//   },
+//   start: true,
+//   timeZone: 'system'
+// });
 
 let sm = new SessionManager(
   new InternalProvider(), {
