@@ -1,6 +1,6 @@
 {
 	"name": "lumber",
-	"version": "0.2.0",
+	"version": "0.2.1",
 	"description": "Logging Server",
 	"license": "MIT",
 	"scripts": {
@@ -50,7 +50,7 @@
 		"uuid": "^9.0.1",
 		"zod": "^3.22.4"
 	},
-  "type": "module",
+	"type": "module",
 	"dependencies": {
 		"better-sqlite3": "^10.0.0"
 	}
