@@ -2,8 +2,8 @@ import { error, json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
 import { z } from "zod";
 import { sql } from "../../../../hooks.server";
-import bcrypt from "bcryptjs";
 import { permission } from "$lib/auth";
+import bcrypt from "bcryptjs";
 
 const schema = {
   body: z.object({
@@ -22,7 +22,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 
     const data = {
       username: newUser.username,
-      passhash: await bcrypt.hash(newUser.password, 8),
+      passhash: await bcrypt.hash(newUser.password, await bcrypt.genSalt(8)),
       email: newUser.email
     }
     let res = await sql.get(`

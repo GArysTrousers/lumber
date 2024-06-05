@@ -1,3 +1,5 @@
+import bcryptjs from "bcryptjs";
+import Database from "better-sqlite3";
 import { readFileSync, copyFileSync, mkdirSync } from "node:fs";
 import { exit } from "node:process";
 import { z } from "zod";
@@ -20,6 +22,17 @@ try {
   mkdirSync(dotenv.dataDir + "/attachments", { recursive: true })
 
   copyFileSync("./default.db", dotenv.dataDir + '/lumber.db')
+
+  let sql = new Database(dotenv.dataDir + '/lumber.db')
+
+  sql.prepare(`
+      INSERT INTO user (username, passhash, email) 
+      VALUES (@username, @passhash, @email)`)
+    .run({
+      username: "lumber",
+      passhash: await bcryptjs.hash("mill", await bcryptjs.genSalt(8)),
+      email: "",
+    })
 
   console.log("Lumber Initialised Successfully");
 } catch (err) {

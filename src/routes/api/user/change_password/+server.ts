@@ -18,7 +18,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 
   const data = {
     id: body.id,
-    passhash: await bcrypt.hash(body.password, 8)
+    passhash: await bcrypt.hash(body.password, await bcrypt.genSalt(8))
   }
 
   let res = await sql.set(`
