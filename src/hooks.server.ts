@@ -9,6 +9,7 @@ import { dataDir } from '$env/static/private';
 export const dbFile = dataDir + "/lumber.db"
 export const attachmentDir = dataDir + "/attachments"
 
+console.log(dbFile, attachmentDir);
 
 export const sql = new Sql(dbFile)
 
