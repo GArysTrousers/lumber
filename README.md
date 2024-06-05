@@ -1,9 +1,17 @@
-# Prerequisites
+# Lumber
+A server to send your logs to.
+
+- Search and filter your logs
+- Script builder
+- Secure access
+
+## Installation
+
+### Prerequisites
 
 - Nodejs v20
 
-# Installation
-
+### Getting it ready
 - Clone repo
 - Create a .env file in the root directory that contains the following:
 ```
@@ -19,15 +27,15 @@ It will also create a user with:
 - Username: lumber
 - Password: mill
 
-# Running the Server
+## Running the Server
 
 Start a terminal in the ./build directory and run:
 
 `node ./index.js`
-## Environment Variables
+### Environment Variables
   - PORT - The port that the server will be run on. (Default: 3000)
   - BODY_SIZE_LIMIT - Max size, in bytes, a request can be, including any attachments. (Default: 512kb)
   - More options can be found here: https://kit.svelte.dev/docs/adapter-node
-## Examples:
+### Examples:
   - Powershell: `$env:PORT = 4000; $env:BODY_SIZE_LIMIT = 5000000; node ./index.js`
   - Bash: `PORT=4000 BODY_SIZE_LIMIT=5000000 node ./index.js`
