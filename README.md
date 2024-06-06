@@ -15,8 +15,9 @@ A server to send your logs to.
 - Clone repo
 - Create a .env file in the root directory that contains the following:
 ```
-dataDir=[put your data directory here]
+dataDir=[put your data directory here, no slashes on the end]
 ```
+Note: on windows, use forward slashes as in C:/path/to/your/data
 - Start a terminal in the project directory and run:
   - `npm i`
   - `npm run init`
