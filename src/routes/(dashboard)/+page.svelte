@@ -39,7 +39,7 @@
 		limit: 500,
 		dateMin: '',
 		dateMax: '',
-		apikey: 0,
+		apikey: 0
 	};
 	let showFileReader = false;
 	let fileContent = '';
@@ -85,37 +85,40 @@
 	}
 </script>
 
-{#if showFilters}
-	<div class="flex flex-row items-end gap-3 mb-2 w-full">
-		<Label for="dateMin"
-			>Limit
-			<Select items={limitOptions} bind:value={searchOptions.limit} />
-		</Label>
-		<Label for="apikey"
-			>Api Key
-			<Select
-				items={[{ value: 0, name: 'Any' }, ...apikeys.map((v) => ({ value: v.id, name: v.name }))]}
-				bind:value={searchOptions.apikey}
-			></Select>
-		</Label>
-		<Label for="dateMin"
-			>Min
-			<Input id="dateMin" type="date" bind:value={searchOptions.dateMin} /></Label
+<div class="flex flex-row items-end gap-3 mb-2 w-full">
+	<Label for="dateMin"
+		>Limit
+		<Select items={limitOptions} bind:value={searchOptions.limit} on:change={getLogs} />
+	</Label>
+	<Label for="apikey"
+		>Api Key
+		<Select
+			items={[{ value: 0, name: 'Any' }, ...apikeys.map((v) => ({ value: v.id, name: v.name }))]}
+			bind:value={searchOptions.apikey}
+			on:change={getLogs}
+		></Select>
+	</Label>
+	<Label for="dateMin"
+		>Min
+		<Input id="dateMin" type="date" bind:value={searchOptions.dateMin} on:change={getLogs} /></Label
+	>
+	<Label for="dateMax"
+		>Max
+		<Input id="dateMax" type="date" bind:value={searchOptions.dateMax} on:change={getLogs} /></Label
+	>
+	<Label for="dateMax" class="ml-auto text-right"
+		>Logs: {searchedLogs.length}
+		<Input
+			defaultClass="w-full"
+			type="text"
+			placeholder="Search..."
+			bind:value={searchText}
 		>
-		<Label for="dateMax"
-			>Max
-			<Input id="dateMax" type="date" bind:value={searchOptions.dateMax} /></Label
-		>
-		<Button on:click={getLogs}>Apply</Button>
-	</div>
-{/if}
+			<SearchOutline class="w-5 h-5" slot="left" />
+		</Input></Label
+	>
+</div>
 <div class="flex flex-row justify-between items-end gap-3 mb-2 w-full">
-	<div class="flex flex-row items-center gap-3">
-		<Button class="!p-3" on:click={() => (showFilters = !showFilters)}
-			><FilterOutline class="outline-none" /></Button
-		>
-		<div class="text-gray-400 whitespace-nowrap">Logs: {searchedLogs.length}</div>
-	</div>
 	<div class="w-full flex flex-row gap-2 ml-auto justify-end items-center">
 		<div>
 			{#if filters.type != ''}
@@ -133,11 +136,6 @@
 					>machine: {filters.machine}</Button
 				>
 			{/if}
-		</div>
-		<div class="w-full max-w-sm">
-			<Input defaultClass="w-full" type="text" placeholder="Search" bind:value={searchText}>
-				<SearchOutline class="w-5 h-5" slot="left" />
-			</Input>
 		</div>
 	</div>
 </div>
@@ -203,13 +201,12 @@
 		{/each}
 	</TableBody>
 </Table>
-
 <Modal title="File" size="lg" bind:open={showFileReader} autoclose outsideclose>
 	<Toggle bind:checked={fileHighlighting}>Highlighting</Toggle>
 	{#if fileHighlighting}
 		<div class="flex flex-col">
 			{#each fileLines as line}
-				<div class={getLineClass(line) + " font-mono"}>{line}</div>
+				<div class={getLineClass(line) + ' font-mono'}>{line}</div>
 			{/each}
 		</div>
 	{:else}

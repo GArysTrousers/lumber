@@ -5,7 +5,7 @@ $machines = @("SERV-01", "SERV-02", "PC-01", "ICT-01", "PC-02")
 
 
 for ($i = 0; $i -lt 1000; $i++) {
-  Invoke-WebRequest "http://localhost:5173/submit" -Method Post -Body @{
+  Invoke-WebRequest "http://localhost:5174/submit" -Method Post -Body @{
     type    = Get-Random -InputObject $types
     message = Get-Random -InputObject $messages
     user    = Get-Random -InputObject $users
