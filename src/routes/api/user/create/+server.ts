@@ -10,7 +10,7 @@ const schema = {
     newUser: z.object({
       username: z.string().max(64),
       password: z.string().min(8).max(64),
-      email: z.string().max(64),
+      email: z.string().max(64).default(''),
     })
   })
 }
