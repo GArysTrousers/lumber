@@ -1,7 +1,7 @@
 import { error } from "@sveltejs/kit";
 import { sql } from "../hooks.server";
 import bcrypt from "bcryptjs";
-import type { Session } from "../app";
+import type { AppSession } from "../app";
 
 export interface DbUser {
   username: string;
@@ -50,6 +50,6 @@ export async function authSqlite(username: string, password: string) {
   return null;
 }
 
-export function permission(session: Session) {
-  if (!session.username) throw error(401);
+export function permission(session: AppSession) {
+  if (!session.data.username) throw error(401);
 }

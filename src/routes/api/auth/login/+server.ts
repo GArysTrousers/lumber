@@ -17,7 +17,7 @@ export const POST: RequestHandler = async ({ request, url, locals }) => {
     const user = await authSqlite(body.username, body.password);
     
     if (user) {
-      locals.session.username = user
+      locals.session.data = user
       return json({})
     }
     throw error(401, "Username or password incorrect")
