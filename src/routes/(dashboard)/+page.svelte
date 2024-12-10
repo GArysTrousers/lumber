@@ -16,7 +16,11 @@
 		Toggle
 	} from 'flowbite-svelte';
 
-	import { SearchOutline, FilterOutline, PaperClipOutline } from 'flowbite-svelte-icons';
+	import {
+		SearchOutline,
+		PaperClipOutline,
+		DownloadSolid
+	} from 'flowbite-svelte-icons';
 	import { onMount } from 'svelte';
 	import type { Log } from '../api/log/get/+server';
 	import type { Key } from '../api/key/get/+server';
@@ -42,9 +46,15 @@
 		apikey: 0
 	};
 	let showFileReader = false;
-	let fileContent = '';
 	let fileHighlighting = false;
-	$: fileLines = fileHighlighting ? fileContent.split('\n') : [];
+  let attachment = {
+    filename: '',
+    content: '',
+    lines: ['']
+  }
+  $: {
+    attachment.lines = fileHighlighting ? attachment.content.split('\n') : []
+  }
 
 	$: searchTextLower = searchText.toLowerCase();
 
@@ -74,7 +84,8 @@
 	async function openFile(filename: string) {
 		try {
 			let res = await api<{ content: string }>('/api/file/' + filename);
-			fileContent = res.content;
+      attachment.filename = filename
+			attachment.content = res.content;
 			showFileReader = true;
 		} catch (e) {}
 	}
@@ -108,12 +119,7 @@
 	>
 	<Label for="dateMax" class="ml-auto text-right"
 		>Logs: {searchedLogs.length}
-		<Input
-			defaultClass="w-full"
-			type="text"
-			placeholder="Search..."
-			bind:value={searchText}
-		>
+		<Input defaultClass="w-full" type="text" placeholder="Search..." bind:value={searchText}>
 			<SearchOutline class="w-5 h-5" slot="left" />
 		</Input></Label
 	>
@@ -202,14 +208,24 @@
 	</TableBody>
 </Table>
 <Modal title="File" size="lg" bind:open={showFileReader} autoclose outsideclose>
-	<Toggle bind:checked={fileHighlighting}>Highlighting</Toggle>
+	<div class="flex flex-row justify-between">
+		<Toggle bind:checked={fileHighlighting}>Highlighting</Toggle>
+		<Button
+			class="!p-2"
+			outline
+			href="data:text/plain;charset=utf-8,{encodeURIComponent(attachment.content)}"
+			download="{attachment.filename}.txt"
+		>
+			<DownloadSolid size="lg" />
+		</Button>
+	</div>
 	{#if fileHighlighting}
 		<div class="flex flex-col">
-			{#each fileLines as line}
+			{#each attachment.lines as line}
 				<div class={getLineClass(line) + ' font-mono'}>{line}</div>
 			{/each}
 		</div>
 	{:else}
-		<pre class="w-full">{fileContent}</pre>
+		<pre class="w-full">{attachment.content}</pre>
 	{/if}
 </Modal>
