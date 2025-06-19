@@ -25,9 +25,9 @@ export const POST: RequestHandler = async ({ request, locals }) => {
       passhash: await bcrypt.hash(newUser.password, await bcrypt.genSalt(8)),
       email: newUser.email
     }
-    let res = await sql.set(`
+    let res = sql.set(`
       INSERT INTO user (username, passhash, email) 
-      VALUES (@username, @passhash, @email)`,
+      VALUES (:username, :passhash, :email)`,
       data
     )
 

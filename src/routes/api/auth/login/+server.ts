@@ -26,6 +26,7 @@ export const POST: RequestHandler = async ({ request, url, locals }) => {
       console.log("Zod Error @", url.pathname, ...e.errors);
       throw error(400);
     }
+    console.log(e);
     throw error(500)
   }
 };

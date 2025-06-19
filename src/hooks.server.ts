@@ -4,10 +4,9 @@ import { redirect, type Handle } from '@sveltejs/kit';
 import { CronJob } from "cron";
 import { removeOldLogs } from '$lib/cleanup';
 import { SessionManager, InternalProvider } from "mega-session";
-import { dataDir } from '$env/static/private';
+import { dbFile } from '$lib/var';
 
-export const dbFile = dataDir + "/lumber.db"
-export const attachmentDir = dataDir + "/attachments"
+
 
 export const sql = new Sql(dbFile)
 

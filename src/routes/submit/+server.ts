@@ -1,12 +1,13 @@
 import { error } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
 import { z } from "zod";
-import { attachmentDir, sql } from "../../hooks.server";
+import { sql } from "../../hooks.server";
 import { getSetting } from "$lib/settings";
 import { writeFile } from "fs/promises";
 import { v4 as uuid } from "uuid";
 import { Setting } from "$lib/types";
 import dayjs from "dayjs";
+import { attachmentDir } from "$lib/var";
 
 const schema = {
   body: z.object({
@@ -38,7 +39,7 @@ export const POST: RequestHandler = async ({ request }) => {
 
     if (await getSetting(Setting.KeyRequired) === true) {
       if (body.apikey === null) throw error(400, "API key required");
-      let apikey = await sql.getOne<{ id: number }>(`SELECT id FROM apikey WHERE code = @apikey`, body)
+      let apikey = sql.getOne<{ id: number }>(`SELECT id FROM apikey WHERE code = :apikey`, body)
       if (!apikey) throw error(400, "Invalid API key");
       body.apikeyId = apikey.id
     }
@@ -54,9 +55,9 @@ export const POST: RequestHandler = async ({ request }) => {
       }
     }
 
-    let res = await sql.set(`
+    let res = sql.set(`
       INSERT INTO log (date, type, message, user, machine, filename, apikeyId)
-      VALUES (@date, @type, @message, @user, @machine, @filename, @apikeyId)
+      VALUES (:date, :type, :message, :user, :machine, :filename, :apikeyId)
       `, {...body, date: dayjs().toISOString()})
 
     return new Response();

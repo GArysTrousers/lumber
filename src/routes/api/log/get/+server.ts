@@ -26,11 +26,11 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   options.dateMax = sqlDate(options.dateMax ? options.dateMax : Date.now(), 1)
 
 
-  let logs = await sql.get(
+  let logs = sql.get(
     `SELECT * FROM log 
-    WHERE date > @dateMin 
-    AND date < @dateMax
-    ${options.apikey > 0 ? 'AND apikeyId = @apikey ':''}
+    WHERE date > :dateMin 
+    AND date < :dateMax
+    ${options.apikey > 0 ? 'AND apikeyId = :apikey ':''}
     ORDER BY date DESC 
     ${options.limit > 0 ? 'LIMIT :limit' : ''}`, options)
 

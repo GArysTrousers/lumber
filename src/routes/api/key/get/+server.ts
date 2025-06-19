@@ -7,7 +7,7 @@ import { permission } from "$lib/auth";
 export const POST: RequestHandler = async ({ request, locals }) => {
   permission(locals.session);
 
-  let logs = await sql.get(`
+  let logs = sql.get(`
   SELECT ak.*, COUNT(log.apikeyId) as count FROM apikey ak
   LEFT JOIN log ON ak.id = log.apikeyId
   GROUP BY ak.id`)

@@ -14,7 +14,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   permission(locals.session);
   try {
     const body = schema.body.parse(await request.json())
-    let logs = await sql.set(`DELETE FROM apikey WHERE id = @id`, body)
+    let logs = sql.set(`DELETE FROM apikey WHERE id = :id`, body)
 
     return json(logs)
   } catch (e) {

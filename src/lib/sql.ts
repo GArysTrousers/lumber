@@ -1,29 +1,36 @@
-import { dev } from '$app/environment';
-import Database from 'better-sqlite3';
+import { DatabaseSync } from 'node:sqlite';
 
 export class Sql {
 
-  db: any;
+  db: DatabaseSync;
 
   constructor(file: string) {
-    this.db = new Database(file, dev ? { verbose: console.log } : {})
+    this.db = new DatabaseSync(file)
   }
 
-  async get<T = any>(query: string, data: Record<string, any> | any[] = {}) {
-    const res = await this.db.prepare(query).all(data)
+  get<T = any>(query: string, data: Record<string, any> = {}) {
+    const statement = this.db.prepare(query)
+    statement.setAllowUnknownNamedParameters(true)
+    const res = statement.all(data)
     return res as T[]
   }
 
-  async getOne<T = any>(query: string, data: Record<string, any> | any[] = {}) {
-    const res = await this.db.prepare(query).all(data)
-    if (res.length > 0)
-      return res[0] as T
-    else
-      throw new Error("No Results")
+  getOne<T = any>(query: string, data: Record<string, any> = {}) {
+    const statement = this.db.prepare(query)
+    statement.setAllowUnknownNamedParameters(true)
+    const res = statement.get(data)
+    if (res === undefined) return undefined
+    return res as T
   }
 
-  async set(query: string, data: any | any[] = {}) {
-    const res = await this.db.prepare(query).run(data)
+  set(query: string, data: any | any[] = {}) {
+    const statement = this.db.prepare(query)
+    statement.setAllowUnknownNamedParameters(true)
+    const res = statement.run(data)
     return res
+  }
+
+  run(query: string) {
+    this.db.exec(query)
   }
 }

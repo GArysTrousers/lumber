@@ -4,7 +4,7 @@
 	"description": "Logging Server",
 	"license": "MIT",
 	"scripts": {
-		"dev": "vite dev",
+		"dev": "DATA_DIR=./data vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
 		"init": "node ./init.js",
@@ -13,7 +13,8 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"test:unit": "vitest",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
-		"format": "prettier --plugin-search-dir . --write ."
+		"format": "prettier --plugin-search-dir . --write .",
+		"db:init": "DATA_DIR=./data node --experimental-strip-types --disable-warning=ExperimentalWarning ./src/db/init-db.ts"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.30.0",
@@ -22,10 +23,10 @@
 		"@sveltejs/kit": "^2.5.9",
 		"@sveltejs/vite-plugin-svelte": "^3.1.0",
 		"@types/bcryptjs": "^2.4.6",
-		"@types/better-sqlite3": "^7.6.10",
 		"@types/uuid": "^9.0.8",
 		"@typescript-eslint/eslint-plugin": "^7.3.1",
 		"@typescript-eslint/parser": "^7.3.1",
+    "@types/node":"^24.0.3",
 		"autoprefixer": "^10.4.13",
 		"eslint": "^8.56.0",
 		"eslint-config-prettier": "^9.1.0",
@@ -51,7 +52,6 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"better-sqlite3": "^10.0.0",
 		"bcryptjs": "^2.4.3"
 	}
 }

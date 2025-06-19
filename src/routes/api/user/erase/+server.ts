@@ -15,9 +15,9 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   try {
     const body = schema.body.parse(await request.json())
 
-    let res = await sql.get(`
+    let res = sql.get(`
       DELETE FROM user 
-      WHERE username = @username`,
+      WHERE username = :username`,
       body
     )
 

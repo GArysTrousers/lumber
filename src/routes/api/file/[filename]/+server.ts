@@ -2,7 +2,7 @@ import { json, error } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
 import { readFile, access } from "fs/promises";
 import { permission } from "$lib/auth";
-import { attachmentDir } from "../../../../hooks.server";
+import { attachmentDir } from "$lib/var";
 
 
 export const POST: RequestHandler = async ({ params, locals }) => {

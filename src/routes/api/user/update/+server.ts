@@ -18,11 +18,11 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   permission(locals.session);
   const body = schema.body.parse(await request.json())
 
-  let res = await sql.set(`
+  let res = sql.set(`
   UPDATE user
-  SET username = @username, 
-  email = @email
-  WHERE id = @id`, body.user)
+  SET username = :username, 
+  email = :email
+  WHERE id = :id`, body.user)
 
   return json(res)
 };

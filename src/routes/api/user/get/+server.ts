@@ -7,7 +7,7 @@ import { permission } from "$lib/auth";
 export const POST: RequestHandler = async ({ request, locals }) => {
   permission(locals.session);
 
-  let res = await sql.get(`
+  let res = sql.get(`
   SELECT id, username, email
   FROM user`)
 

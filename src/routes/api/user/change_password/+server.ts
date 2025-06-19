@@ -21,10 +21,10 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     passhash: await bcrypt.hash(body.password, await bcrypt.genSalt(8))
   }
 
-  let res = await sql.set(`
+  let res = sql.set(`
   UPDATE user
-  SET passhash = @passhash
-  WHERE id = @id`, data)
+  SET passhash = :passhash
+  WHERE id = :id`, data)
 
   return json(res)
 };
