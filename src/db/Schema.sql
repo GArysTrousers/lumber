@@ -1,37 +1,39 @@
 CREATE TABLE
-  "apikey" (
-    "id" INTEGER NULL,
-    "name" VARCHAR(64) NOT NULL DEFAULT '',
-    "code" VARCHAR(64) NOT NULL DEFAULT '',
-    "date" DATETIME NOT NULL DEFAULT '',
-    PRIMARY KEY ("id")
+  IF NOT EXISTS "apikey" (
+    "id" INTEGER NOT NULL PRIMARY KEY,
+    "name" TEXT NOT NULL DEFAULT '',
+    "code" TEXT NOT NULL DEFAULT '',
+    "date" DATETIME NOT NULL DEFAULT ''
   );
 
 CREATE TABLE
-  "log" (
-    "id" INTEGER NOT NULL,
+  IF NOT EXISTS "log" (
+    "id" INTEGER NOT NULL PRIMARY KEY,
     "date" DATETIME NOT NULL,
-    "type" VARCHAR(32) NULL DEFAULT NULL,
-    "message" VARCHAR(256) NULL DEFAULT NULL,
-    "user" VARCHAR(32) NULL DEFAULT NULL,
-    "machine" VARCHAR(32) NULL DEFAULT NULL,
-    "apikeyId" INTEGER NULL DEFAULT NULL,
-    "filename" VARCHAR(32) NULL DEFAULT NULL,
-    PRIMARY KEY ("id")
+    "type" TEXT DEFAULT NULL,
+    "message" TEXT DEFAULT NULL,
+    "user" TEXT DEFAULT NULL,
+    "machine" TEXT DEFAULT NULL,
+    "apikeyId" INTEGER DEFAULT REFERENCES "apikey" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "filename" TEXT DEFAULT NULL
   );
 
 CREATE TABLE
-  "settings" (
-    "key" INTEGER NOT NULL DEFAULT 0,
-    "value" TEXT NOT NULL DEFAULT '',
-    PRIMARY KEY ("key")
+  IF NOT EXISTS "settings" (
+    "key" INTEGER NOT NULL PRIMARY KEY,
+    "value" TEXT NOT NULL DEFAULT ''
   );
 
 CREATE TABLE
-  "user" (
-    "id" INTEGER NOT NULL,
-    "username" VARCHAR(64) NOT NULL,
-    "email" VARCHAR(64) NOT NULL,
-    "passhash" VARCHAR(128) NOT NULL DEFAULT '',
-    PRIMARY KEY ("id")
-  )
+  IF NOT EXISTS "user" (
+    "id" INTEGER NOT NULL PRIMARY KEY,
+    "username" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "passhash" TEXT NOT NULL DEFAULT ''
+  );
+
+CREATE TABLE
+  IF NOT EXISTS "session" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "data" TEXT NOT NULL
+  );

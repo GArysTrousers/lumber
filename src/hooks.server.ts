@@ -5,10 +5,10 @@ import { CronJob } from "cron";
 import { removeOldLogs } from '$lib/cleanup';
 import { SessionManager, InternalProvider } from "mega-session";
 import { dbFile } from '$lib/var';
+import { NodeSqliteProvider } from '$lib/node-sqlite-provider';
 
 
 
-export const sql = new Sql(dbFile)
 
 const cleanupLogsJob = CronJob.from({
   cronTime: '0 0 * * *',
@@ -19,8 +19,10 @@ const cleanupLogsJob = CronJob.from({
   timeZone: 'system'
 });
 
+export const sql = new Sql(dbFile)
+
 let sm = new SessionManager(
-  new InternalProvider(), {
+  new NodeSqliteProvider(sql.db), {
   cookieName: "lumber_session_id",
   version: "1",
   timeoutMillis: 1000 * 60 * 60 * 12,
