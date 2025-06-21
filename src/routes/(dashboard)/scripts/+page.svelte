@@ -18,7 +18,7 @@
 		variableName: ''
 	};
 
-	let apikey = {
+	let apikey: {enabled: boolean; selected: string | null; keys: { name: string, value: string }[]} = {
 		enabled: false,
 		selected: null,
 		keys: []
