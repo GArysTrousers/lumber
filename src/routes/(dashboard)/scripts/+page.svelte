@@ -4,7 +4,6 @@
 	import { onMount } from 'svelte';
 	import type { Key } from '../../api/key/get/+server';
 	import { page } from '$app/stores';
-	import { validate } from 'uuid';
 
 	let options = {
 		type: '',

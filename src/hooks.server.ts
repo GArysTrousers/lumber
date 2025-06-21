@@ -3,12 +3,10 @@ import { Sql } from '$lib/sql';
 import { redirect, type Handle } from '@sveltejs/kit';
 import { CronJob } from "cron";
 import { removeOldLogs } from '$lib/cleanup';
-import { SessionManager, InternalProvider } from "mega-session";
-import { dbFile } from '$lib/var';
+import { SessionManager } from "mega-session";
 import { NodeSqliteProvider } from '$lib/node-sqlite-provider';
-
-
-
+import { dbFile } from '$lib/var';
+import { building } from '$app/environment';
 
 const cleanupLogsJob = CronJob.from({
   cronTime: '0 0 * * *',
@@ -19,7 +17,7 @@ const cleanupLogsJob = CronJob.from({
   timeZone: 'system'
 });
 
-export const sql = new Sql(dbFile)
+export const sql = new Sql(building ? ":memory:" : dbFile)
 
 let sm = new SessionManager(
   new NodeSqliteProvider(sql.db), {

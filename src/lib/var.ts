@@ -1,10 +1,13 @@
+import { building } from "$app/environment";
 import { z } from "zod";
 
 const envSchema = z.object({
   DATA_DIR: z.string()
 })
 
-const env = envSchema.parse(process.env);
+const env = building
+  ? { DATA_DIR: '' }
+  : envSchema.parse(process.env);
 
 export const dataDir = env.DATA_DIR
 export const dbFile = dataDir + "/lumber.sqlite"
